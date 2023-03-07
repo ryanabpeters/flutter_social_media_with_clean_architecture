@@ -2,9 +2,10 @@ name: Check PR approval for non-admin authors
 
 on:
   # PR into main opened, reopened, or synchronized
+  push:
+   branches: [ "develop" ]
   pull_request:
-    branches:
-      - main
+   branches: [ "develop" ]
 
   # When a review is submitted
   pull_request_review:
