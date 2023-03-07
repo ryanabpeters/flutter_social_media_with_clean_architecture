@@ -1,0 +1,40 @@
+name: flutter_social_media_with_clean_architecture
+description: A project intended for learning bloc version 8.0.0+ using clean architecture.
+publish_to: 'none'
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.19.3 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.5
+  flutter_bloc: ^8.1.2
+  formz: ^0.5.0+1
+  flutter_staggered_grid_view: ^0.6.2
+  go_router: ^6.2.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  image_picker: ^0.8.6+4
+  intl: ^0.18.0
+  path_provider: ^2.0.13
+  uuid: ^3.0.7
+  video_player: ^2.5.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: ^2.3.3
+  flutter_lints: ^2.0.1
+  hive_generator: ^2.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/videos/
