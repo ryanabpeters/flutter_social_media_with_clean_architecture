@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_social_media_with_clean_architecture/src/features/auth/presentation/pages/login_screen.dart';
+import 'package:flutter_social_media_with_clean_architecture/src/features/auth/presentation/pages/signup_screen.dart';
+import 'package:flutter_social_media_with_clean_architecture/src/features/feed/presentation/pages/discover_screen.dart';
+import 'package:flutter_social_media_with_clean_architecture/src/features/feed/presentation/pages/feed_screen.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../main.dart';
 
 class AppRouter {
   // TODO: Add the auth bloc as input.
@@ -15,15 +17,14 @@ class AppRouter {
         name: 'feed',
         path: '/',
         builder: (BuildContext context, GoRouterState state) {
-          // TODO: Change to feed screen.
-          return const HomeScreen(title: 'Social App',);
+          return const FeedScreen();
         },
       ),
       GoRoute(
         name: 'discover',
         path: '/discover',
         builder: (BuildContext context, GoRouterState state) {
-          return Container();
+          return const DiscoverScreen();
         },
         routes: [
           GoRoute(
@@ -39,14 +40,14 @@ class AppRouter {
         name: 'login',
         path: '/login',
         builder: (BuildContext context, GoRouterState state) {
-          return Container();
+          return const LoginScreen();
         },
         routes: [
           GoRoute(
             name: 'signup',
             path: 'signup',
             builder: (BuildContext context, GoRouterState state) {
-              return Container();
+              return const SignupScreen();
             },
           )
         ],
