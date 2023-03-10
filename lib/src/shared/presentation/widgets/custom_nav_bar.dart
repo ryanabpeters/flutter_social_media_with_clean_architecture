@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+/// Custom Nav Bar
 class CustomNavBar extends StatelessWidget {
-  const CustomNavBar({Key? key}) : super(key: key);
+  /// Custom Nav Bar constructor
+  const CustomNavBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class CustomNavBar extends StatelessWidget {
         height: 75,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
+          children: <IconButton>[
             IconButton(
               onPressed: () {
                 context.goNamed('feed');

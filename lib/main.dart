@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_social_media_with_clean_architecture/src/config/app_router.dart';
-import 'package:flutter_social_media_with_clean_architecture/src/config/app_theme.dart';
+
+import 'src/config/app_router.dart';
+import 'src/config/app_theme.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
+/// MyApp
 class MyApp extends StatelessWidget {
+  /// MyApp constructor
   const MyApp({super.key});
 
   @override

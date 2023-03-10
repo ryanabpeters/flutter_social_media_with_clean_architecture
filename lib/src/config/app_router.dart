@@ -1,16 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_social_media_with_clean_architecture/src/features/auth/presentation/pages/login_screen.dart';
-import 'package:flutter_social_media_with_clean_architecture/src/features/auth/presentation/pages/signup_screen.dart';
-import 'package:flutter_social_media_with_clean_architecture/src/features/feed/presentation/pages/discover_screen.dart';
-import 'package:flutter_social_media_with_clean_architecture/src/features/feed/presentation/pages/feed_screen.dart';
 import 'package:go_router/go_router.dart';
 
+import '../features/auth/presentation/pages/login_screen.dart';
+import '../features/auth/presentation/pages/signup_screen.dart';
+import '../features/feed/presentation/pages/discover_screen.dart';
+import '../features/feed/presentation/pages/feed_screen.dart';
+
+/// App Router
 class AppRouter {
-  // TODO: Add the auth bloc as input.
+  // TODO(ryanpetersdev): Add the auth bloc as input.
+  /// AppRouter constructor
   AppRouter();
 
+  /// router
   late final GoRouter router = GoRouter(
     routes: <GoRoute>[
       GoRoute(
@@ -26,7 +30,7 @@ class AppRouter {
         builder: (BuildContext context, GoRouterState state) {
           return const DiscoverScreen();
         },
-        routes: [
+        routes: <GoRoute>[
           GoRoute(
             name: 'user',
             path: ':userId',
@@ -42,7 +46,7 @@ class AppRouter {
         builder: (BuildContext context, GoRouterState state) {
           return const LoginScreen();
         },
-        routes: [
+        routes: <GoRoute>[
           GoRoute(
             name: 'signup',
             path: 'signup',
@@ -53,12 +57,17 @@ class AppRouter {
         ],
       ),
     ],
-    // TODO: Redirect users to the login screen if they're not authenticated. Else, go to the feed screen.
+    /*
+    TODO(ryanpetersdev): Redirect users to the login screen if they're not
+     authenticated. Else, go to the feed screen.
+     */
     // redirect:
   );
 }
 
+/// GoRouterRefreshStream
 class GoRouterRefreshStream extends ChangeNotifier {
+  /// GoRouterRefreshStream constructor
   GoRouterRefreshStream(Stream<dynamic> stream) {
     notifyListeners();
     _subscription = stream.asBroadcastStream().listen(
@@ -69,8 +78,8 @@ class GoRouterRefreshStream extends ChangeNotifier {
   late final StreamSubscription<dynamic> _subscription;
 
   @override
-  void dispose() {
-    _subscription.cancel();
+  Future<void> dispose() async {
+    await _subscription.cancel();
     super.dispose();
   }
 }

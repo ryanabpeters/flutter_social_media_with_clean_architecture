@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_social_media_with_clean_architecture/src/shared/presentation/widgets/custom_nav_bar.dart';
+import '../../../../shared/presentation/widgets/custom_nav_bar.dart';
 
+/// Feed Screen
 class FeedScreen extends StatelessWidget {
-  const FeedScreen({Key? key}) : super(key: key);
+  /// Feed Screen constructor
+  const FeedScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

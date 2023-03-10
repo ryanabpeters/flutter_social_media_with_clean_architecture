@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// CustomTheme
 class CustomTheme {
+  /// theme
   ThemeData theme() {
     return ThemeData(
       scaffoldBackgroundColor: Colors.black87,
