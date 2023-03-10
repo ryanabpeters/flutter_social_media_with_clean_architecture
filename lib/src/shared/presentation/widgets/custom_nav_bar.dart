@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-/// Custom Nav Bar
+/// The navigation bar used throughout the app.
 class CustomNavBar extends StatelessWidget {
-  /// Custom Nav Bar constructor
+  /// The CustomNavBar constructor.
   const CustomNavBar({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return BottomAppBar(
       notchMargin: 10,
       color: Colors.black,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-/// CustomTheme
+/// The main custom theme class of the app.
 class CustomTheme {
-  /// theme
+  /// Returns the specifications of the general app theme.
   ThemeData theme() {
     return ThemeData(
       scaffoldBackgroundColor: Colors.black87,

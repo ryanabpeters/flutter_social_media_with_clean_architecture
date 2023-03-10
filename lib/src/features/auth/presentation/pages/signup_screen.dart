@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-/// Signup screen
+/// The Signup screen.
 class SignupScreen extends StatelessWidget {
-  /// Signup screen constructor
+  /// The SignupScreen constructor.
   const SignupScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Signup'),

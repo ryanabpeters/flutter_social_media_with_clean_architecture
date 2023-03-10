@@ -259,7 +259,7 @@ linter:
     # Colors is an example of such a class, but they still enable this rule in the repo though, go figure.
     #
     # Like Pedantic, we like util and static classes too, so we use them.
-    # We tried the Effective Dart style and used a of kConstants in different const files. This
+    # We tried the Effective Dart style and used an of kConstants in different const files. This
     # is more cumbersome to use than static classes. The import is simpler with static classes and
     # the code looks cleaner. If you use a lot of constant files, importing them is more tedious,
     # and you cannot enforce a given 'as' name to have a consistent name space prefix. A static
@@ -360,7 +360,7 @@ linter:
     # RydMike                 : https://gist.github.com/rydmike/fdb53ddd933c37d20e6f3188a936cd4c
     #   RELEASE:     enabled  : By commenting it out. (default)
     #   DEVELOPMENT: disabled : Uncomment below if the warnings bother you during dev or making a console app.
-    # avoid_print: false
+    avoid_print: false
 
     # AVOID redundant argument values.
     #
@@ -433,7 +433,7 @@ linter:
     # Lint           disabled : https://pub.dev/packages/lint
     # VG Analysis    enabled  : https://pub.dev/packages/very_good_analysis
     # RydMike        disabled : https://gist.github.com/rydmike/fdb53ddd933c37d20e6f3188a936cd4c
-    cascade_invocations: false
+    cascade_invocations: true
 
     # DO invoke close on instances of dart.core.Sink.
     #
@@ -510,7 +510,7 @@ linter:
     # requires max 80 char lines. This rule will then help you find cases where you go over
     # and fix them manually when possible. Funny thing is that Flutter repo violates this rule, but
     # if you do it in packages for pub.dev you get score deductions. We often disable this rule
-    # if this is not a package, so we keep it listed here as as a handy toggle.
+    # if this is not a package, so we keep it listed here as a handy toggle.
     #
     # Other known linters use:
     #
@@ -613,7 +613,7 @@ linter:
     # But this lint rule complained about the above usage too where we think it makes sense to use this.
     # This rule currently complains about use cases that in some scenarios is impossible to comply with.
     # Maybe this is another issue with this lint rule. We should investigate it further and report
-    # it, if it is. For now we disable this rule.
+    # it, if it is. For now, we disable this rule.
     # A past now resolved issue with this lint rule was: https://github.com/dart-lang/linter/issues/2149
     #
     # Other known linters use:
@@ -692,7 +692,7 @@ linter:
     # avoid accidental reassignments.
     #
     # Certainly good idea in many cases. There seems to be one "small" false positive issue with it.
-    # Lint is triggered by final constructor properties, eg a in
+    # Lint is triggered by final constructor properties, e.g. an in
     # `final int i;`  the parameter `this.i` is not also final, which is not really needed
     # since the property is final. However, this triggers the rule, unnecessarily in our opinion.
     # We need to turn OFF this rule due to that.
@@ -712,7 +712,7 @@ linter:
     # Lint           disabled : https://pub.dev/packages/lint
     # VG Analysis    disabled : https://pub.dev/packages/very_good_analysis
     # RydMike        disabled : https://gist.github.com/rydmike/fdb53ddd933c37d20e6f3188a936cd4c
-    prefer_final_parameters: false
+#    prefer_final_parameters: false
 
     # DO use int literals rather than the corresponding double literal.
     #
@@ -788,7 +788,7 @@ linter:
     # Lint           enabled  : https://pub.dev/packages/lint
     # VG Analysis    enabled  : https://pub.dev/packages/very_good_analysis
     # RydMike        disabled : https://gist.github.com/rydmike/fdb53ddd933c37d20e6f3188a936cd4c
-    require_trailing_commas: false
+    require_trailing_commas: true
 
     # DO sort constructor declarations before other members.
     #

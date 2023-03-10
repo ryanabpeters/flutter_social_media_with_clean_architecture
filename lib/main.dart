@@ -7,13 +7,13 @@ void main() {
   runApp(const MyApp());
 }
 
-/// MyApp
+/// The class of the app.
 class MyApp extends StatelessWidget {
-  /// MyApp constructor
+  /// The MyApp constructor.
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return MaterialApp.router(
       title: 'Flutter Demo',
       theme: CustomTheme().theme(),

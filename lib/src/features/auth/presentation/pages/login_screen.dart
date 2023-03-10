@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-/// Login screen
+/// The Login screen.
 class LoginScreen extends StatelessWidget {
-  /// Login screen constructor
+  /// The LoginScreen constructor.
   const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),

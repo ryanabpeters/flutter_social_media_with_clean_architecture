@@ -27,6 +27,7 @@ dependencies:
 dev_dependencies:
   all_lint_rules_community: ^0.0.25
   build_runner: ^2.3.3
+  dartdoc: ^6.2.0
   flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+
 import '../../../../shared/presentation/widgets/custom_nav_bar.dart';
 
-/// Feed Screen
+/// The Feed screen.
 class FeedScreen extends StatelessWidget {
-  /// Feed Screen constructor
+  /// The FeedScreen constructor
   const FeedScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Feed'),
