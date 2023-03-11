@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+/// The navigation bar used throughout the app.
 class CustomNavBar extends StatelessWidget {
-  const CustomNavBar({Key? key}) : super(key: key);
+  /// The CustomNavBar constructor.
+  const CustomNavBar({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return BottomAppBar(
       notchMargin: 10,
       color: Colors.black,
@@ -13,7 +15,7 @@ class CustomNavBar extends StatelessWidget {
         height: 75,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
+          children: <IconButton>[
             IconButton(
               onPressed: () {
                 context.goNamed('feed');

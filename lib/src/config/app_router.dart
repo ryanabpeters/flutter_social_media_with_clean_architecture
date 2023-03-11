@@ -1,36 +1,40 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_social_media_with_clean_architecture/src/features/auth/presentation/pages/login_screen.dart';
-import 'package:flutter_social_media_with_clean_architecture/src/features/auth/presentation/pages/signup_screen.dart';
-import 'package:flutter_social_media_with_clean_architecture/src/features/feed/presentation/pages/discover_screen.dart';
-import 'package:flutter_social_media_with_clean_architecture/src/features/feed/presentation/pages/feed_screen.dart';
 import 'package:go_router/go_router.dart';
 
+import '../features/auth/presentation/pages/login_screen.dart';
+import '../features/auth/presentation/pages/signup_screen.dart';
+import '../features/feed/presentation/pages/discover_screen.dart';
+import '../features/feed/presentation/pages/feed_screen.dart';
+
+/// The routing solution used for the entire app.
 class AppRouter {
-  // TODO: Add the auth bloc as input.
+  // TODO(ryanpetersdev): Add the auth bloc as input.
+  /// The AppRouter constructor.
   AppRouter();
 
+  /// The app's router with route configuration and lists.
   late final GoRouter router = GoRouter(
     routes: <GoRoute>[
       GoRoute(
         name: 'feed',
         path: '/',
-        builder: (BuildContext context, GoRouterState state) {
+        builder: (final BuildContext context, final GoRouterState state) {
           return const FeedScreen();
         },
       ),
       GoRoute(
         name: 'discover',
         path: '/discover',
-        builder: (BuildContext context, GoRouterState state) {
+        builder: (final BuildContext context, final GoRouterState state) {
           return const DiscoverScreen();
         },
-        routes: [
+        routes: <GoRoute>[
           GoRoute(
             name: 'user',
             path: ':userId',
-            builder: (BuildContext context, GoRouterState state) {
+            builder: (final BuildContext context, final GoRouterState state) {
               return Container();
             },
           )
@@ -39,38 +43,43 @@ class AppRouter {
       GoRoute(
         name: 'login',
         path: '/login',
-        builder: (BuildContext context, GoRouterState state) {
+        builder: (final BuildContext context, final GoRouterState state) {
           return const LoginScreen();
         },
-        routes: [
+        routes: <GoRoute>[
           GoRoute(
             name: 'signup',
             path: 'signup',
-            builder: (BuildContext context, GoRouterState state) {
+            builder: (final BuildContext context, final GoRouterState state) {
               return const SignupScreen();
             },
-          )
+          ),
         ],
       ),
     ],
-    // TODO: Redirect users to the login screen if they're not authenticated. Else, go to the feed screen.
+    /*
+    TODO(ryanpetersdev): Redirect users to the login screen if they're not
+     authenticated. Else, go to the feed screen.
+     */
     // redirect:
   );
 }
 
+/// Stream used for redirects.
 class GoRouterRefreshStream extends ChangeNotifier {
-  GoRouterRefreshStream(Stream<dynamic> stream) {
+  /// The GoRouterRefreshStream constructor.
+  GoRouterRefreshStream(final Stream<dynamic> stream) {
     notifyListeners();
     _subscription = stream.asBroadcastStream().listen(
-          (dynamic _) => notifyListeners(),
-    );
+          (final dynamic _) => notifyListeners(),
+        );
   }
 
   late final StreamSubscription<dynamic> _subscription;
 
   @override
-  void dispose() {
-    _subscription.cancel();
+  Future<void> dispose() async {
+    await _subscription.cancel();
     super.dispose();
   }
 }
