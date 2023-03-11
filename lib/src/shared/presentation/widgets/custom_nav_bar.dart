@@ -17,16 +17,12 @@ class CustomNavBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <IconButton>[
             IconButton(
-              onPressed: () {
-                context.goNamed('feed');
-              },
+              onPressed: () => context.goNamed('feed'),
               iconSize: 30,
               icon: const Icon(Icons.home),
             ),
             IconButton(
-              onPressed: () {
-                context.goNamed('discover');
-              },
+              onPressed: () => context.goNamed('discover'),
               iconSize: 30,
               icon: const Icon(Icons.search),
             ),

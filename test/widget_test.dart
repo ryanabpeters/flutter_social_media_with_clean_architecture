@@ -7,6 +7,6 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
-    expect(find.text('Feeds'), findsOneWidget);
+    expect(find.text('Feed'), findsOneWidget);
   });
 }
