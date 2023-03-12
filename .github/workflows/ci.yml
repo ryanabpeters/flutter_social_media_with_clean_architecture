@@ -1,66 +1,190 @@
+#name: CI
+#on:
+#  pull_request:
+#    branches:
+#      - develop
+#
+#jobs:
+#  flutter_analyze:
+#    name: Run flutter analyze
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: actions/setup-java@v1
+#        with:
+#          java-version: "19.x"
+#      - uses: subosito/flutter-action@v1
+#        with:
+#          channel: "stable"
+#      - run: flutter pub get
+#      - run: flutter analyze
+#
+#  flutter_test:
+#    name: Run flutter test
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: actions/setup-java@v1
+#        with:
+#          java-version: "19.x"
+#      - uses: subosito/flutter-action@v1
+#        with:
+#          channel: "stable"
+#      - run: flutter pub get
+#      - run: flutter test
+#
+#
+#  test_coverage_above_80_percent:
+#    name: Report LCOV
+#    needs: flutter_test
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#      # ... Generate LCOV files or download it from a different job
+#      - name: Setup LCOV
+#        uses: hrishikesh-kadam/setup-lcov@v1
+#      - name: Report code coverage
+#        uses: zgosalvez/github-actions-report-lcov@v3
+#        with:
+#          coverage-files: coverage/lcov.info
+#          artifact-name: code-coverage-report
+#          minimum-coverage: 80
+#
+#  build_ios:
+#    name: Build Flutter (iOS)
+#    needs: [flutter_analyze, flutter_test]
+#    runs-on: macos-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: actions/setup-java@v1
+#        with:
+#          java-version: "12.x"
+#      - uses: subosito/flutter-action@v1
+#        with:
+#          channel: "stable"
+#      - run: flutter pub get
+#      - run: flutter clean
+#      - run: flutter build ios --release --no-codesign
+#
+#  build_appbundle:
+#    name: Build Flutter (Android)
+#    needs: [flutter_analyze, flutter_test]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: actions/setup-java@v1
+#        with:
+#          java-version: "12.x"
+#      - uses: subosito/flutter-action@v1
+#        with:
+#          channel: "stable"
+#      - run: flutter pub get
+#      - run: flutter clean
+#      - run: flutter build appbundle
 name: CI
+
 on:
   pull_request:
     branches:
       - develop
 
 jobs:
-  flutter_analyze:
-    name: Run flutter analyze
+  security_hardening:
+    name: Check security hardening
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: "19.x"
-      - uses: subosito/flutter-action@v1
-        with:
-          channel: "stable"
-      - run: flutter pub get
-      - run: flutter analyze
-      
-  flutter_test:
-    name: Run flutter test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: "19.x"
-      - uses: subosito/flutter-action@v1
-        with:
-          channel: "stable"
-      - run: flutter pub get
-      - run: flutter test
+      - name: Clone the repository
+        uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+      - name: Ensure SHA pinned actions
+        uses: zgosalvez/github-actions-ensure-sha-pinned-actions@21991cec25093947ff3f62e4c223df0260c39944
 
-  build_ios:
-    name: Build Flutter (iOS)
-    needs: [flutter_analyze, flutter_test]
-    runs-on: macos-latest
+  testing:
+    name: Run ${{ matrix.category }} testing
+    needs: security_hardening
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        category: [static, unit, widget]
+      fail-fast: false
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      - name: Clone the repository
+        uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
         with:
-          java-version: "12.x"
-      - uses: subosito/flutter-action@v1
+          path: code
+      - name: Get Flutter version
+        id: get-flutter-version
+        uses: zgosalvez/github-actions-get-flutter-version-env@6612e3034be02aa7498668168e3497594f37e0c9
         with:
-          channel: "stable"
-      - run: flutter pub get
-      - run: flutter clean
-      - run: flutter build ios --release --no-codesign
+          pubspec-file-path: code/pubspec.yaml
+      - name: Cache Flutter
+        id: flutter-cache
+        uses: actions/cache@e0d62270e20d6eeecf2fd6397a1b8871b6269e38
+        with:
+          path: flutter
+          key: ${{ env.cache-name }}-ubuntu-latest-${{ steps.get-flutter-version.outputs.version }}-${{ hashFiles('code/pubspec.lock') }}
+          restore-keys: |
+            ${{ env.cache-name }}-ubuntu-latest-${{ steps.get-flutter-version.outputs.version }}-
+            ${{ env.cache-name }}-ubuntu-latest-
+            ${{ env.cache-name }}-
+        env:
+          cache-name: flutter-cache
+      - name: Clone the Flutter repository
+        if: steps.flutter-cache.outputs.cache-hit != 'true'
+        uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+        with:
+          repository: flutter/flutter
+          ref: ${{ steps.get-flutter-version.outputs.version }}
+          path: flutter
+      - name: Add the flutter tool to the path
+        run: |
+          echo "$GITHUB_WORKSPACE/flutter/bin" >> $GITHUB_PATH
+          echo "$GITHUB_WORKSPACE/flutter/bin/cache/dart-sdk/bin" >> $GITHUB_PATH
+      - name: Populate the Flutter tool's cache of binary artifacts
+        if: steps.flutter-cache.outputs.cache-hit != 'true'
+        run: |
+          flutter config --no-analytics
+          flutter precache
+      - name: Get Flutter packages
+        run: flutter pub get
+        working-directory: code
+      - name: Analyze Flutter
+        if: matrix.category == 'static'
+        uses: zgosalvez/github-actions-analyze-dart@19958e2c77cbb2dc0803a7135e63b945d69e26b6
+        with:
+          fail-on-warnings: true
+          working-directory: code
+      - name: Run Flutter ${{ matrix.category }} tests
+        if: matrix.category != 'static'
+        run: flutter test --no-pub --coverage --coverage-path=./coverage/lcov.${{ matrix.category }}.info test/${{ matrix.category }}s
+        working-directory: code
+      - name: Upload code coverage to GitHub
+        if: matrix.category != 'static'
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce
+        with:
+          name: code-coverage
+          path: code/coverage/lcov.${{ matrix.category }}.info
 
-  build_appbundle:
-    name: Build Flutter (Android)
-    needs: [flutter_analyze, flutter_test]
+  coverage_report:
+    name: Generate coverage report
+    needs: testing
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+      - name: Clone the repository
+        uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+      - name: Download code coverage from GitHub
+        uses: actions/download-artifact@e9ef242655d12993efdcda9058dee2db83a2cb9b
         with:
-          java-version: "12.x"
-      - uses: subosito/flutter-action@v1
+          name: code-coverage
+          path: coverage
+      - name: Setup LCOV
+        uses: hrishikesh-kadam/setup-lcov@def53e39d7cb18c6c8322b94673d28bd1c52dac2
+      - name: Report code coverage
+        uses: zgosalvez/github-actions-report-lcov@558d6c4cd18303842089a985ce20647f3d1a5e58
         with:
-          channel: "stable"
-      - run: flutter pub get
-      - run: flutter clean
-      - run: flutter build appbundle
+          coverage-files: coverage/lcov.*.info
+          minimum-coverage: 80
+          artifact-name: code-coverage-report
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          title-prefix: 'Latest code coverage results: '
+          update-comment: true
