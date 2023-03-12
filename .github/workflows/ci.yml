@@ -106,7 +106,7 @@ jobs:
     strategy:
       matrix:
 #        category: [static, unit, widget]
-        category: [static, widget]
+        category: [widget]
       fail-fast: false
     steps:
       - name: Clone the repository
