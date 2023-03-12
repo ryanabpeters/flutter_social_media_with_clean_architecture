@@ -33,6 +33,16 @@ jobs:
       - run: flutter pub get
       - run: flutter test
 
+  test_coverage_above_80_percent:
+    name: Coverage check
+    steps:
+     uses: devmasx/coverage-check-action@v1.2.0
+     with:
+       type: lcov
+       token: ${{ secrets.GITHUB_TOKEN }}
+       min_coverage: 80
+       result_path: /coverage_check
+
   build_ios:
     name: Build Flutter (iOS)
     needs: [flutter_analyze, flutter_test]
