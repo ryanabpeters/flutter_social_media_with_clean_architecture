@@ -27,4 +27,9 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
+
+  /// Temporary test function for unit tests.
+  int testFunction(final int number) {
+    return number + 1;
+  }
 }
