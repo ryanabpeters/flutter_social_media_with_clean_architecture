@@ -95,7 +95,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone the repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
       - name: Ensure SHA pinned actions
         uses: zgosalvez/github-actions-ensure-sha-pinned-actions@21991cec25093947ff3f62e4c223df0260c39944
 
@@ -110,12 +110,12 @@ jobs:
       fail-fast: false
     steps:
       - name: Clone the repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
         with:
           path: code
       - name: Get Flutter version
         id: get-flutter-version
-        uses: zgosalvez/github-actions-get-flutter-version-env@v2.0.14
+        uses: zgosalvez/github-actions-get-flutter-version-env@6612e3034be02aa7498668168e3497594f37e0c9
         with:
           pubspec-file-path: code/pubspec.yaml
       - name: Cache Flutter
@@ -132,7 +132,7 @@ jobs:
           cache-name: flutter-cache
       - name: Clone the Flutter repository
         if: steps.flutter-cache.outputs.cache-hit != 'true'
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
         with:
           repository: flutter/flutter
           ref: ${{ steps.get-flutter-version.outputs.version }}
@@ -151,7 +151,7 @@ jobs:
         working-directory: code
       - name: Analyze Flutter
         if: matrix.category == 'static'
-        uses: zgosalvez/github-actions-analyze-dart@v2.0.14
+        uses: zgosalvez/github-actions-analyze-dart@19958e2c77cbb2dc0803a7135e63b945d69e26b6
         with:
           fail-on-warnings: true
           working-directory: code
@@ -161,7 +161,7 @@ jobs:
         working-directory: code
       - name: Upload code coverage to GitHub
         if: matrix.category != 'static'
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@e9ef242655d12993efdcda9058dee2db83a2cb9b
         with:
           name: code-coverage
           path: code/coverage/lcov.${{ matrix.category }}.info
@@ -172,14 +172,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone the repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
       - name: Download code coverage from GitHub
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@e9ef242655d12993efdcda9058dee2db83a2cb9b
         with:
           name: code-coverage
           path: coverage
       - name: Report code coverage
-        uses: zgosalvez/github-actions-report-lcov@v3.1.2
+        uses: zgosalvez/github-actions-report-lcov@558d6c4cd18303842089a985ce20647f3d1a5e58
         with:
           coverage-files: coverage/lcov.*.info
           minimum-coverage: 80
