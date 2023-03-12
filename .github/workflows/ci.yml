@@ -173,6 +173,8 @@ jobs:
     steps:
       - name: Clone the repository
         uses: actions/checkout@27135e314dd1818f797af1db9dae03a9f045786b
+        with:
+          path: code
       - name: Download code coverage from GitHub
         uses: actions/download-artifact@e9ef242655d12993efdcda9058dee2db83a2cb9b
         with:
