@@ -35,10 +35,11 @@ jobs:
 
   test_coverage_above_80_percent:
     name: Report LCOV
-    uses: zgosalvez/github-actions-report-lcov@v3.1.2
-    with:
-      # The coverage files to scan. For example, `coverage/lcov.*.info`
-      coverage-files: coverage/lcov.info
+    steps:
+      - uses: zgosalvez/github-actions-report-lcov@v3.1.2
+        with:
+          # The coverage files to scan. For example, `coverage/lcov.*.info`
+          coverage-files: coverage/lcov.info
 
   build_ios:
     name: Build Flutter (iOS)
