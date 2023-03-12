@@ -40,7 +40,7 @@ jobs:
      - uses: devmasx/coverage-check-action@v1.2.0
        with:
          type: lcov
-         token: ${{ secrets.COVERAGE_TOKEN }}
+         token: ${{ secrets.github_token }}
          min_coverage: 80
          result_path: /coverage_check
 
