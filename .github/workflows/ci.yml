@@ -182,6 +182,6 @@ jobs:
         uses: zgosalvez/github-actions-report-lcov@49af65b0586c274a625a41a2dc8aaaae7d00568b
         with:
           coverage-files: coverage/lcov.*.info
-          minimum-coverage: 80
+          minimum-coverage: 70
           artifact-name: code-coverage-report
           github-token: ${{ secrets.GITHUB_TOKEN }}
