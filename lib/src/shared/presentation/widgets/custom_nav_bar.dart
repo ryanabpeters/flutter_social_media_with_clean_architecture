@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+part of 'widgets.dart';
 
 /// The navigation bar used throughout the app.
 class CustomNavBar extends StatelessWidget {
@@ -9,41 +8,70 @@ class CustomNavBar extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return BottomAppBar(
-      notchMargin: 10,
-      color: Colors.black,
+      notchMargin: AppDimensions.bottomAppBarNotchMargin,
+      color: AppColors.appBottomBarColor,
       child: SizedBox(
-        height: 75,
+        height: AppDimensions.bottomAppBarHeight,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <IconButton>[
-            IconButton(
-              onPressed: () => context.goNamed('feed'),
-              iconSize: 30,
-              icon: const Icon(Icons.home),
-            ),
-            IconButton(
-              onPressed: () => context.goNamed('discover'),
-              iconSize: 30,
-              icon: const Icon(Icons.search),
-            ),
-            IconButton(
-              onPressed: () {},
-              iconSize: 30,
-              icon: const Icon(Icons.add_circle),
-            ),
-            IconButton(
-              onPressed: () {},
-              iconSize: 30,
-              icon: const Icon(Icons.message),
-            ),
-            IconButton(
-              onPressed: () {},
-              iconSize: 30,
-              icon: const Icon(Icons.person),
-            ),
+            _getFeedIconButton(context),
+            _getDiscoverIconButton(context),
+            _getPostIconButton(context),
+            _getChatIconButton(context),
+            _getUserIconButton(context),
           ],
         ),
       ),
+    );
+  }
+
+  IconButton _buildIconButton(
+    final BuildContext context, {
+    required final IconData iconData,
+    final String? routeName,
+  }) {
+    return IconButton(
+      onPressed: routeName != null ? () => context.goNamed(routeName) : () {},
+      iconSize: AppDimensions.bottomAppBarIconSize,
+      icon: Icon(iconData),
+    );
+  }
+
+  IconButton _getChatIconButton(final BuildContext context) {
+    return _buildIconButton(
+      context,
+      iconData: Icons.message,
+    );
+  }
+
+  IconButton _getDiscoverIconButton(final BuildContext context) {
+    return _buildIconButton(
+      context,
+      routeName: RouteNames.discoverRouteName,
+      iconData: Icons.search,
+    );
+  }
+
+  IconButton _getFeedIconButton(final BuildContext context) {
+    return _buildIconButton(
+      context,
+      routeName: RouteNames.feedRouteName,
+      iconData: Icons.home,
+    );
+  }
+
+  IconButton _getPostIconButton(final BuildContext context) {
+    return _buildIconButton(
+      context,
+      iconData: Icons.add_circle,
+    );
+  }
+
+  IconButton _getUserIconButton(final BuildContext context) {
+    return _buildIconButton(
+      context,
+      iconData: Icons.person,
     );
   }
 }
