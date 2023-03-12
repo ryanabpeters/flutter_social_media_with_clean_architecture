@@ -1,0 +1,17 @@
+{
+  "app": {
+    "title": "Flutter Social Media"
+  },
+  "discoverScreen": {
+    "title": "Discover"
+  },
+  "feedScreen": {
+    "title": "Feed"
+  },
+  "loginScreen": {
+    "title": "Login"
+  },
+  "signupScreen": {
+    "title": "Signup"
+  }
+}
