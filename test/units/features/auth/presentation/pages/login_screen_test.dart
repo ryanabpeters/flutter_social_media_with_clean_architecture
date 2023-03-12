@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 Future<void> main() async {
   test('Unit tests working', () async {
-    final LoginScreen loginScreen = const LoginScreen();
+    const LoginScreen loginScreen = LoginScreen();
     expect(loginScreen.testFunction(1), 2);
   });
 }
