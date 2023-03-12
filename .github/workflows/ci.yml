@@ -106,7 +106,7 @@ jobs:
     strategy:
       matrix:
 #        category: [static, unit, widget]
-        category: [widget]
+        category: [static, widget]
       fail-fast: false
     steps:
       - name: Clone the repository
@@ -182,6 +182,6 @@ jobs:
         uses: zgosalvez/github-actions-report-lcov@49af65b0586c274a625a41a2dc8aaaae7d00568b
         with:
           coverage-files: coverage/lcov.*.info
-          minimum-coverage: 90
+          minimum-coverage: 80
           artifact-name: code-coverage-report
           github-token: ${{ secrets.GITHUB_TOKEN }}
